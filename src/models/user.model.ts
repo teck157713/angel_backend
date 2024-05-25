@@ -11,6 +11,4 @@ export interface SignInRequest {
 
 export interface getUserPreferencesModel {
     uid: string,
-    donationlimit: number,
-    donationpref: string
 }
