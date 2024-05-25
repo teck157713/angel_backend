@@ -29,8 +29,8 @@ export const getTransactionInformation = async (uid: string, originalAmount: num
     }
 
     const totalAmount = Math.ceil(originalAmount);
-    const donatedAmount = originalAmount - totalAmount;
-    const taxDeducted = donatedAmount * 2.5;
+    const donatedAmount = parseFloat((totalAmount - originalAmount).toFixed(2));
+    const taxDeducted = parseFloat((donatedAmount * 2.5).toFixed(2));
 
     return {
         totalAmount,
