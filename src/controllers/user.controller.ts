@@ -30,7 +30,7 @@ export const getUserPreferences = async (req: Request, res: Response) => {
         const snapshot = await firestore
             .doc(`/users/${model.uid}`)
             .get();
-        res.status(200).json(snapshot.data() || []);
+        res.status(200).json(snapshot.data() || null);
     }
     catch (error) {
         res.status(400).json(error);
