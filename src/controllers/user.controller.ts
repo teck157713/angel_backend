@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { auth } from "../firebase";
 import { firestore } from "../firebase";
-import { saveUserPreferences, getUserPreferencesModel } from "../models/user.model";
+import { saveUserPreferencesModel, getUserPreferencesModel } from "../models/user.model";
 
-export const register = async (req: Request, res: Response) => {
-    const model = req.body as saveUserPreferences;
+export const saveUserPreferences = async (req: Request, res: Response) => {
+    const model = req.body as saveUserPreferencesModel;
 
     try {
 
