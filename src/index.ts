@@ -1,4 +1,5 @@
 import "dotenv/config";
+import "./firebase";
 import { server } from "./app";
 
 server.listen(process.env.PORT, () => {
