@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { getTransactionInformation } from "../utils/payment.utils";
 import { stripe } from "../utils/stripe.utils";
+import { firestore } from "../firebase";
+import { Timestamp } from "firebase-admin/firestore";
 
 export const createCheckoutSession = async (req: Request, res: Response) => {
     try {
         const totalOriginalAmount = req.body.products.reduce((acc: number, curr: any) => acc += curr.price_data.unit_amount * 0.01, 0);
-        console.log(totalOriginalAmount)
         const amountInformation = await getTransactionInformation(req.body.uid, totalOriginalAmount);
-        console.log(amountInformation)
         const lineItems = req.body.products;
 
         if (amountInformation.donatedAmount > 0) {
@@ -22,13 +22,27 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
                 quantity: 1
             })
         }
+
+        const transferGroup = crypto.randomUUID();
+
+        await firestore
+            .collection(`/users/${req.body.uid}/transactions`)
+            .add({
+                date: Timestamp.fromDate(new Date()),
+                donatedAmount: amountInformation.donatedAmount,
+                originalAmount: amountInformation.originalAmount,
+                status: "PENDING",
+                transferGroup,
+                taxDeducted: amountInformation.taxDeducted,
+                totalAmount: amountInformation.totalAmount
+            })
         
         const session = await stripe.checkout.sessions.create({
             line_items: lineItems,
             payment_intent_data: {
-                transfer_group: 'ORDER100',
+                transfer_group: transferGroup,
             },
-            mode: 'payment',
+            mode: "payment",
             success_url: req.body.successUrl,
             cancel_url: req.body.cancelUrl
         });

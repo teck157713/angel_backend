@@ -13,6 +13,7 @@ export const getTransactionInformation = async (uid: string, originalAmount: num
     const now = new Date();
     const transactionSnapshots = await firestore
         .collection(`/users/${uid}/transactions`)
+        .where("status", "==", "PAID")
         .where("date", ">", Timestamp.fromDate(new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0)))
         .get();
 
