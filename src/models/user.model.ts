@@ -1,9 +1,5 @@
 export interface saveUserPreferences {
     uid: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
     donationlimit: number,
     donationpref: string
 }
@@ -13,12 +9,11 @@ export interface SignInRequest {
     password: string
 }
 
-export interface getUserPreferences {
+export interface getUserPreferencesModel {
     uid: string,
     firstName: string,
     lastName: string,
     email: string,
-    password: string,
     donationlimit: number,
     donationpref: string
 }

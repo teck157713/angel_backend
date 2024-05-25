@@ -1,29 +1,17 @@
 import { Request, Response } from "express";
 import { auth } from "../firebase";
 import { firestore } from "../firebase";
-import { saveUserPreferences, getUserPreferences } from "../models/user.model";
+import { saveUserPreferences, getUserPreferencesModel } from "../models/user.model";
 
 export const register = async (req: Request, res: Response) => {
     const model = req.body as saveUserPreferences;
 
     try {
-        await auth.createUser({
-            disabled: false,
-            displayName: `${model.firstName} ${model.lastName}`,
-            email: model.email,
-            emailVerified: false,
-            password: model.password,
-        });
-        
 
-        const snapshot = await firestore
+        await firestore
             .doc((`/users/${model.uid}`))
             .set({
                 uid: model.uid,
-                firstName: model.firstName,
-                lastName: model.lastName,
-                email: model.email,
-                password: model.password,
                 donationlimit: model.donationlimit,
                 donationpref: model.donationpref
             });
@@ -35,10 +23,10 @@ export const register = async (req: Request, res: Response) => {
     }
 }
 
-export const getUserPrefr = async (req: Request, res: Response) => {
-    const model = req.body as getUserPreferences;
+export const getUserPreferences = async (req: Request, res: Response) => {
+    const model = req.body as getUserPreferencesModel;
     try {
-        const draftInvoiceReq = req.body as getUserPreferences;
+        const draftInvoiceReq = req.body as getUserPreferencesModel;
         const snapshot = await firestore
             .doc(`/users/${model.uid}`)
             .get();
