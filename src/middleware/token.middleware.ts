@@ -2,15 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import { auth } from "../firebase";
 import http from "http";
 
-const unauthorizedRoutes: string[] = [
-    "/users/register",
-    "/payments/webhook"
+const unprotectedRoutes: string[] = [
+    "/users/saveUserPreferences"
 ]
 
 export const getUID = async (req: Request | http.IncomingMessage) => {
-    if (unauthorizedRoutes.includes(req.url || "")) {
-        return "";
-    }
 
     const authorization = req.headers["authorization"] || req.headers["cookie"]?.substring("X-Authorization=".length);
 
