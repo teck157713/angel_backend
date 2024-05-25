@@ -26,7 +26,6 @@ export const saveUserPreferences = async (req: Request, res: Response) => {
 export const getUserPreferences = async (req: Request, res: Response) => {
     const model = req.body as getUserPreferencesModel;
     try {
-        const draftInvoiceReq = req.body as getUserPreferencesModel;
         const snapshot = await firestore
             .doc(`/users/${model.uid}`)
             .get();
