@@ -3,6 +3,7 @@ import { GetAmountRequest } from "../models/transaction.model";
 import { firestore } from "../firebase";
 
 export const getAmount = async (req: Request, res: Response) => {
+    console.log("CALLING GET AMOUNT")
     const model = req.body as GetAmountRequest;
 
     try {
