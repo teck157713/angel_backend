@@ -1,3 +1,4 @@
+import { credential } from "firebase-admin";
 import { applicationDefault, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
@@ -9,7 +10,11 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
 
 // const agent = new HttpsProxyAgent(`http://localhost:${process.env.PORT}`);
 const app = initializeApp({
-    credential: applicationDefault()
+    credential: credential.cert({
+        "projectId": process.env.PROJECT_ID,
+        "clientEmail": process.env.CLIENT_EMAIL,
+        "privateKey": process.env.PRIVATE_KEY
+    })
 });
 
 export const auth = getAuth(app);
