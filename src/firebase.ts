@@ -8,12 +8,11 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
     process.env["FIREBASE_AUTH_EMULATOR_HOST"] = "localhost:9099";
 }
 
-// const agent = new HttpsProxyAgent(`http://localhost:${process.env.PORT}`);
 const app = initializeApp({
     credential: credential.cert({
         "projectId": process.env.PROJECT_ID,
         "clientEmail": process.env.CLIENT_EMAIL,
-        "privateKey": Buffer.from(process.env.PRIVATE_KEY || "", "base64").toString()
+        "privateKey": Buffer.from(process.env.PRIVATE_KEY || "", "base64").toString().replace(/\\n/gm, "\n")
     })
 });
 
