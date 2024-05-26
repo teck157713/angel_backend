@@ -4,12 +4,12 @@ import { firestore } from "../firebase";
 
 export const getAmount = async (req: Request, res: Response) => {
     const model = req.body as GetAmountRequest;
-
+console.log("get amount")
     try {
         const now = new Date();
 
         let query: any = firestore.collection(`/users/${model.uid}/transactions`);
-
+console.log("aaa")
         switch (model.timeframe) {
             case "M":
                 query = query.where("date", ">", new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0));
