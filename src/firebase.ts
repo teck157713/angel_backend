@@ -13,7 +13,7 @@ const app = initializeApp({
     credential: credential.cert({
         "projectId": process.env.PROJECT_ID,
         "clientEmail": process.env.CLIENT_EMAIL,
-        "privateKey": process.env.PRIVATE_KEY
+        "privateKey": Buffer.from(process.env.PRIVATE_KEY || "", "base64").toString()
     })
 });
 
